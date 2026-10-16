@@ -85,7 +85,12 @@ def main() -> int:
     ap.add_argument("--root", default=".")
     args = ap.parse_args()
     root = Path(args.root)
-    text = render(parse((root / "ROADMAP.md").read_text(encoding="utf-8")))
+    roadmap = root / "ROADMAP.md"
+    if not roadmap.is_file():
+        # ROADMAP.md est un document local, non versionné : sans lui, le CHANGELOG.md commité fait foi.
+        print("ROADMAP.md absent : contrôle du CHANGELOG ignoré" if args.check else "ROADMAP.md introuvable")
+        return 0 if args.check else 1
+    text = render(parse(roadmap.read_text(encoding="utf-8")))
     target = root / "CHANGELOG.md"
     if args.check:
         if not target.exists() or target.read_text(encoding="utf-8") != text:
