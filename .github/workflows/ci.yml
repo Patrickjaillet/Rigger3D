@@ -37,7 +37,8 @@ jobs:
         uses: ilammy/msvc-dev-cmd@v1
       - run: cmake --preset ${{ matrix.config }}
       - run: cmake --build --preset ${{ matrix.config }}
-      - run: ctest --preset ${{ matrix.config }}
+      # Les tests du label « gpu » exigent un vrai OpenGL 4.1 (absent des runners) : ils tournent en local, pas en CI.
+      - run: ctest --preset ${{ matrix.config }} -LE gpu
       - name: THIRD_PARTY_LICENSES.txt à jour
         if: runner.os == 'Linux' && matrix.config == 'debug'
         run: python3 tools/gen_third_party.py --check
@@ -66,7 +67,7 @@ jobs:
       - run: sudo apt-get update && sudo apt-get install -y ninja-build libgl1-mesa-dev libxkbcommon-x11-0 libxcb-cursor0 libxcb1-dev libx11-xcb-dev libxkbcommon-dev
       - run: cmake --preset asan
       - run: cmake --build --preset asan
-      - run: ctest --preset asan
+      - run: ctest --preset asan -LE gpu
 
   format:
     name: clang-format
@@ -118,7 +119,7 @@ jobs:
       - run: sudo apt-get update && sudo apt-get install -y ninja-build gcovr
       - run: cmake --preset coverage
       - run: cmake --build --preset coverage
-      - run: ctest --preset coverage
+      - run: ctest --preset coverage -LE gpu
       - name: Rapport (échoue sous 85 % de lignes couvertes dans src/core)
         run: |
           gcovr --root . --filter 'src/core/' --exclude 'src/core/command/commands.hpp' \
