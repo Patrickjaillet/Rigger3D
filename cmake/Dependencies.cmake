@@ -2,7 +2,19 @@
 # Copyright (C) 2026 Patrick JAILLET
 
 include(FetchContent)
+# Dans GitHub Actions, setup-python expose l'interpréteur choisi (où « pip install glad » a été fait) dans pythonLocation :
+# on le préfère à un autre Python du poste (sinon CMake peut retenir une version plus récente sans le module glad).
+if(DEFINED ENV{pythonLocation} AND NOT Python_ROOT_DIR)
+  set(Python_ROOT_DIR "$ENV{pythonLocation}")
+  set(Python_FIND_STRATEGY LOCATION)
+endif()
 find_package(Python COMPONENTS Interpreter REQUIRED)
+
+# fmt (inclus dans spdlog 1.14) est rejeté par les Clang récents (Xcode 16.3+) à cause de consteval : on le désactive.
+# Seul le contrôle de la chaîne de format à la compilation est perdu ; le comportement à l'exécution est identique.
+if(APPLE)
+  add_compile_definitions(FMT_USE_CONSTEVAL=0 FMT_CONSTEVAL=)
+endif()
 
 # Compatibilité avec CMake 4 pour les dépendances qui déclarent un vieux cmake_minimum_required.
 set(CMAKE_POLICY_VERSION_MINIMUM 3.5)
