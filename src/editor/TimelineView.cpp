@@ -25,7 +25,6 @@ namespace rigger::editor {
 namespace {
 
 using SelKey = std::tuple<BoneId, int, long long>;
-long long quantize(double t) { return std::llround(t * 10000.0); }
 
 const Track<glm::vec3>* vecTrack(const BoneTracks& tracks, int channel) {
     return channel == ChannelScale ? &tracks.scale

@@ -13,17 +13,6 @@
 namespace rigger {
 namespace {
 
-bool finite(const glm::mat3& matrix) {
-    for (int column = 0; column < 3; ++column) {
-        for (int row = 0; row < 3; ++row) {
-            if (!std::isfinite(matrix[column][row])) {
-                return false;
-            }
-        }
-    }
-    return true;
-}
-
 bool finite(const glm::mat4& matrix) {
     for (int column = 0; column < 4; ++column) {
         for (int row = 0; row < 4; ++row) {

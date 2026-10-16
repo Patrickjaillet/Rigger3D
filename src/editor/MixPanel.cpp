@@ -183,7 +183,7 @@ void MixPanel::buildLayersTab(QWidget* page) {
                            key[0] != 0 ? std::string(key) + std::to_string(i) : std::string());
     };
     connect(layerClip_, &QComboBox::activated, this,
-            [this, edit](int index) { edit([index](AnimationLayer& l) { l.clip = index; }); });
+            [edit](int index) { edit([index](AnimationLayer& l) { l.clip = index; }); });
     connect(layerWeight_, &QSlider::valueChanged, this, [edit](int value) {
         edit([value](AnimationLayer& l) { l.weight = static_cast<float>(value) / 100.0f; }, "layerWeight");
     });

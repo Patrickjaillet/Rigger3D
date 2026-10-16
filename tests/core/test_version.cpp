@@ -3,6 +3,9 @@
 
 #include <doctest/doctest.h>
 
+#include <ostream>
+#include <string>
+
 #include "core/version.hpp"
 
 TEST_CASE("version") {
