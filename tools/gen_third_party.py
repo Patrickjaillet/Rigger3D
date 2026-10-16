@@ -35,13 +35,14 @@ LICENSE_NAMES = ("LICENSE", "LICENSE.txt", "LICENSE.md", "COPYING", "COPYING.txt
 
 
 def find_license(folder: Path):
+    # Insensible à la casse (Linux : « copying.txt » pour GLM, « LICENSE » ailleurs).
+    entries = {f.name.lower(): f for f in folder.iterdir() if f.is_file()} if folder.is_dir() else {}
     for name in LICENSE_NAMES:
-        candidate = folder / name
-        if candidate.is_file():
-            return candidate
-    for candidate in sorted(folder.glob("LICENSE*")) + sorted(folder.glob("COPYING*")):
-        if candidate.is_file():
-            return candidate
+        if name.lower() in entries:
+            return entries[name.lower()]
+    for key in sorted(entries):
+        if key.startswith(("license", "copying")):
+            return entries[key]
     return None
 
 

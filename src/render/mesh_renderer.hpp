@@ -3,7 +3,7 @@
 
 #pragma once
 
-#include <glad/glad.h>
+#include "render/glad_include.hpp"
 
 #include <array>
 #include <cstddef>

@@ -123,7 +123,7 @@ jobs:
       - name: Rapport (échoue sous 85 % de lignes couvertes dans src/core)
         run: |
           gcovr --root . --filter 'src/core/' --exclude 'src/core/command/commands.hpp' \
-                --print-summary --xml coverage.xml --html-details coverage.html --fail-under-line 85
+                --gcov-ignore-parse-errors negative_hits.warn_once_per_file --print-summary --xml coverage.xml --html-details coverage.html --fail-under-line 85
       - uses: actions/upload-artifact@v4
         with:
           name: coverage-report
