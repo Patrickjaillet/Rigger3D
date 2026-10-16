@@ -20,15 +20,12 @@ jobs:
       QT_QPA_PLATFORM: offscreen
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
-      - name: Générateur de chargeur OpenGL (glad 0.1.x)
-        run: python -m pip install glad==0.1.36
       - uses: jurplel/install-qt-action@v4
         with:
           version: '6.8.*'
           cache: true
+      - name: Générateur de chargeur OpenGL (glad 0.1.x, dans le Python activé par install-qt-action)
+        run: python -m pip install glad==0.1.36
       - name: Dépendances système (Linux)
         if: runner.os == 'Linux'
         run: sudo apt-get update && sudo apt-get install -y ninja-build libgl1-mesa-dev libxkbcommon-x11-0 libxcb-cursor0 libxcb1-dev libx11-xcb-dev libxkbcommon-dev
@@ -60,15 +57,12 @@ jobs:
       QT_QPA_PLATFORM: offscreen
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
-      - name: Générateur de chargeur OpenGL (glad 0.1.x)
-        run: python -m pip install glad==0.1.36
       - uses: jurplel/install-qt-action@v4
         with:
           version: '6.8.*'
           cache: true
+      - name: Générateur de chargeur OpenGL (glad 0.1.x, dans le Python activé par install-qt-action)
+        run: python -m pip install glad==0.1.36
       - run: sudo apt-get update && sudo apt-get install -y ninja-build libgl1-mesa-dev libxkbcommon-x11-0 libxcb-cursor0 libxcb1-dev libx11-xcb-dev libxkbcommon-dev
       - run: cmake --preset asan
       - run: cmake --build --preset asan
@@ -79,11 +73,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
-      - name: Générateur de chargeur OpenGL (glad 0.1.x)
-        run: python -m pip install glad==0.1.36
       - name: Vérifier le formatage
         run: |
           sudo apt-get update && sudo apt-get install -y clang-format
@@ -100,15 +89,12 @@ jobs:
       QT_QPA_PLATFORM: offscreen
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
-      - name: Générateur de chargeur OpenGL (glad 0.1.x)
-        run: python -m pip install glad==0.1.36
       - uses: jurplel/install-qt-action@v4
         with:
           version: '6.8.*'
           cache: true
+      - name: Générateur de chargeur OpenGL (glad 0.1.x, dans le Python activé par install-qt-action)
+        run: python -m pip install glad==0.1.36
       - run: sudo apt-get update && sudo apt-get install -y ninja-build libgl1-mesa-dev libxkbcommon-x11-0 libxcb-cursor0 libxcb1-dev libx11-xcb-dev libxkbcommon-dev
       - run: cmake --preset release
       - run: cmake --build --preset release
@@ -124,11 +110,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
-      - name: Générateur de chargeur OpenGL (glad 0.1.x)
-        run: python -m pip install glad==0.1.36
       - run: sudo apt-get update && sudo apt-get install -y ninja-build gcovr
       - run: cmake --preset coverage
       - run: cmake --build --preset coverage
@@ -151,11 +132,6 @@ jobs:
       QT_QPA_PLATFORM: offscreen
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
-      - name: Générateur de chargeur OpenGL (glad 0.1.x)
-        run: python -m pip install glad==0.1.36
       - run: sudo apt-get update && sudo apt-get install -y ninja-build clang
       - name: Construire les cibles de fuzzing (core + io, sans Qt)
         run: |
