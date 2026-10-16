@@ -85,7 +85,8 @@ if(RIGGER_BUILD_APP)
 
   # Qt Advanced Docking System (LGPL 2.1) : liaison statique, à documenter en Phase 16 (mentions de licence).
   FetchContent_Declare(qtads GIT_REPOSITORY https://github.com/githubuser0xFFFF/Qt-Advanced-Docking-System.git
-                             GIT_TAG 4.4.1 GIT_SHALLOW TRUE SYSTEM)
+                             GIT_TAG 4.4.1 GIT_SHALLOW TRUE SYSTEM
+                             PATCH_COMMAND ${CMAKE_COMMAND} -P "${CMAKE_CURRENT_LIST_DIR}/patch_ads.cmake")
   set(ADS_VERSION 4.4.1 CACHE INTERNAL "")
   set(BUILD_STATIC ON CACHE INTERNAL "")
   set(BUILD_EXAMPLES OFF CACHE INTERNAL "")

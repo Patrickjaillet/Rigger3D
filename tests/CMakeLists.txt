@@ -107,7 +107,7 @@ if(RIGGER_BUILD_APP)
     set_tests_properties(crash_report PROPERTIES ENVIRONMENT "${_ui_env}" LABELS ui)
   endif()
 
-  add_executable(rigger_gpu_tests render/test_gpu_skinning.cpp)
+  add_executable(rigger_gpu_tests render/test_gpu_skinning.cpp render/gl_test_context.cpp)
   target_include_directories(rigger_gpu_tests PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}")
   target_link_libraries(rigger_gpu_tests PRIVATE rigger_core rigger_render Qt6::Gui doctest::doctest)
   target_compile_definitions(rigger_gpu_tests PRIVATE RIGGER_TEST_DATA_DIR="${CMAKE_CURRENT_SOURCE_DIR}/data")

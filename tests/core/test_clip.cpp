@@ -336,3 +336,17 @@ TEST_CASE("lecteur : ping-pong rebondit aux bornes et inverse le sens") {
     CHECK(p.time() >= 0.0);
     CHECK(p.time() <= 2.0);
 }
+
+TEST_CASE("insertKey renvoie le bon indice même quand le vecteur est réalloué") {
+    // Régression : l'indice était calculé par « insert(...) - begin() » (ordre d'évaluation non spécifié) :
+    // faux sous GCC.
+    Track<glm::vec3> track;
+    for (int i = 20; i >= 0; --i) {
+        const std::size_t index = insertKey(track, key(i * 1.0, {static_cast<float>(i), 0, 0}));
+        CHECK(index == 0);  // décroissant : toujours en tête
+    }
+    for (int i = 0; i <= 20; ++i) {
+        CHECK(track.keys[static_cast<std::size_t>(i)].time == doctest::Approx(i * 1.0));
+    }
+    CHECK(insertKey(track, key(10.5, {0, 0, 0})) == 11);
+}

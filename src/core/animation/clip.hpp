@@ -98,7 +98,11 @@ std::size_t insertKey(Track<T>& track, const Keyframe<T>& key) {
     }
     const auto it = std::upper_bound(track.keys.begin(), track.keys.end(), key.time,
                                      [](double t, const Keyframe<T>& k) { return t < k.time; });
-    return static_cast<std::size_t>(track.keys.insert(it, key) - track.keys.begin());
+    // Indice calculé AVANT l'insertion : l'ordre d'évaluation des opérandes de « - » n'est pas spécifié, et
+    // insert() peut réallouer (begin() évalué avant l'insertion = itérateur invalide).
+    const auto index = static_cast<std::size_t>(it - track.keys.begin());
+    track.keys.insert(it, key);
+    return index;
 }
 
 template <class T>

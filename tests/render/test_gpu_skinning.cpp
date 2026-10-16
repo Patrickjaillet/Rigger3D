@@ -11,11 +11,7 @@
 
 #include <QDir>
 #include <QFileInfo>
-#include <QGuiApplication>
 #include <QImage>
-#include <QOffscreenSurface>
-#include <QOpenGLContext>
-#include <QSurfaceFormat>
 #include <algorithm>
 #include <array>
 #include <cstdint>
@@ -27,14 +23,13 @@
 
 #include "core/skinning/lbs.hpp"
 #include "render/gl_loader.hpp"
+#include "render/gl_test_context.hpp"
 #include "render/gpu_skinning.hpp"
 #include "render/mesh_renderer.hpp"
 #include "render/shader.hpp"
 #include "render/skinning_shader.hpp"
 
 namespace {
-
-QOpenGLContext* activeContext = nullptr;
 
 bool vectorsClose(const glm::vec3& a, const glm::vec3& b, float epsilon) {
     return glm::length(a - b) <= epsilon;
@@ -318,33 +313,11 @@ TEST_CASE("snapshot visuel : la pose de référence rendue hors écran reste con
 }
 
 int main(int argc, char** argv) {
-    QSurfaceFormat format;
-    format.setVersion(4, 1);
-    format.setProfile(QSurfaceFormat::CoreProfile);
-    QSurfaceFormat::setDefaultFormat(format);
-    QGuiApplication application(argc, argv);
-
-    QOffscreenSurface surface;
-    surface.setFormat(format);
-    surface.create();
-    if (!surface.isValid()) {
-        std::fprintf(stderr, "Failed to create an offscreen OpenGL surface for GPU skinning tests.\n");
-        return 77;
+    GlTestContext context(argc, argv);
+    if (!context.ok()) {
+        return 77;  // pas de contexte OpenGL 4.1 : test ignoré (SKIP_RETURN_CODE)
     }
-
-    QOpenGLContext context;
-    context.setFormat(format);
-    if (!context.create() || !context.makeCurrent(&surface)) {
-        std::fprintf(stderr, "Failed to create or activate OpenGL context (actual %d.%d).\n",
-                     context.format().majorVersion(), context.format().minorVersion());
-        return 77;
-    }
-
-    activeContext = &context;
-    const auto getProcAddress = [](const char* name) {
-        return reinterpret_cast<void*>(activeContext->getProcAddress(name));
-    };
-    if (!rigger::render::loadOpenGL(getProcAddress)) {
+    if (!rigger::render::loadOpenGL(&GlTestContext::procAddress)) {
         std::fprintf(stderr, "Failed to initialize OpenGL functions for GPU skinning tests.\n");
         return 77;
     }
