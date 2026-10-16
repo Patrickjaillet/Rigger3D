@@ -1,0 +1,91 @@
+{
+ "scene": 0,
+ "scenes": [
+  {
+   "nodes": [
+    0
+   ]
+  }
+ ],
+ "nodes": [
+  {
+   "name": "Quad",
+   "mesh": 0
+  }
+ ],
+ "meshes": [
+  {
+   "name": "Quad",
+   "primitives": [
+    {
+     "attributes": {
+      "POSITION": 0
+     },
+     "indices": 1
+    }
+   ]
+  }
+ ],
+ "asset": {
+  "version": "2.0",
+  "generator": "rigger/tools/make_test_gltf.py"
+ },
+ "buffers": [
+  {
+   "byteLength": 64,
+   "uri": "data:application/octet-stream;base64,AAECAwAAAAAAAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAIA/AAAAAAAAAAAAAIA/AAAAAAAAAQACAAAAAgADAA=="
+  }
+ ],
+ "bufferViews": [
+  {
+   "buffer": 0,
+   "byteOffset": 0,
+   "byteLength": 4
+  },
+  {
+   "buffer": 0,
+   "byteOffset": 4,
+   "byteLength": 48
+  },
+  {
+   "buffer": 0,
+   "byteOffset": 52,
+   "byteLength": 12,
+   "target": 34963
+  }
+ ],
+ "accessors": [
+  {
+   "componentType": 5126,
+   "count": 4,
+   "type": "VEC3",
+   "min": [
+    0,
+    0,
+    0
+   ],
+   "max": [
+    1,
+    1,
+    0
+   ],
+   "sparse": {
+    "count": 4,
+    "indices": {
+     "bufferView": 0,
+     "componentType": 5121
+    },
+    "values": {
+     "bufferView": 1
+    }
+   }
+  },
+  {
+   "bufferView": 2,
+   "byteOffset": 0,
+   "componentType": 5123,
+   "count": 6,
+   "type": "SCALAR"
+  }
+ ]
+}

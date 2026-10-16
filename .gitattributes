@@ -1,0 +1,9 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
+# Copyright (C) 2026 Patrick JAILLET
+
+* text=auto eol=lf
+*.png binary
+*.ico binary
+*.ttf binary
+*.glb binary
+*.rig text eol=lf

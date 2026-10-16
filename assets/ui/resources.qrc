@@ -1,0 +1,72 @@
+<RCC>
+    <qresource prefix="/">
+        <file>theme.qss</file>
+        <file alias="app/rigger-256.png">../app/rigger-256.png</file>
+        <file alias="app/rigger-64.png">../app/rigger-64.png</file>
+        <file alias="THIRD_PARTY_LICENSES.txt">../../THIRD_PARTY_LICENSES.txt</file>
+        <file>fonts/Inter-Regular.ttf</file>
+        <file>fonts/Inter-Medium.ttf</file>
+        <file>fonts/Inter-SemiBold.ttf</file>
+        <file>fonts/OFL.txt</file>
+        <file>icons/add-bone.svg</file>
+        <file>icons/bone.svg</file>
+        <file>icons/clear.svg</file>
+        <file>icons/copy.svg</file>
+        <file>icons/curve.svg</file>
+        <file>icons/export.svg</file>
+        <file>icons/extrude.svg</file>
+        <file>icons/eye-off.svg</file>
+        <file>icons/eye.svg</file>
+        <file>icons/file-new.svg</file>
+        <file>icons/flag.svg</file>
+        <file>icons/focus.svg</file>
+        <file>icons/folder-open.svg</file>
+        <file>icons/gpu.svg</file>
+        <file>icons/help.svg</file>
+        <file>icons/home.svg</file>
+        <file>icons/import.svg</file>
+        <file>icons/influence.svg</file>
+        <file>icons/info.svg</file>
+        <file>icons/isolate.svg</file>
+        <file>icons/keyframe.svg</file>
+        <file>icons/lock.svg</file>
+        <file>icons/loop.svg</file>
+        <file>icons/mesh.svg</file>
+        <file>icons/mirror.svg</file>
+        <file>icons/mode-animate.svg</file>
+        <file>icons/mode-rig.svg</file>
+        <file>icons/mode-skin.svg</file>
+        <file>icons/onion.svg</file>
+        <file>icons/ortho.svg</file>
+        <file>icons/panels.svg</file>
+        <file>icons/paste.svg</file>
+        <file>icons/pause.svg</file>
+        <file>icons/pingpong.svg</file>
+        <file>icons/play.svg</file>
+        <file>icons/plus.svg</file>
+        <file>icons/pose.svg</file>
+        <file>icons/quit.svg</file>
+        <file>icons/record.svg</file>
+        <file>icons/redo.svg</file>
+        <file>icons/reset-layout.svg</file>
+        <file>icons/reset-pose.svg</file>
+        <file>icons/save.svg</file>
+        <file>icons/search.svg</file>
+        <file>icons/select-all.svg</file>
+        <file>icons/select-none.svg</file>
+        <file>icons/settings.svg</file>
+        <file>icons/skip-end.svg</file>
+        <file>icons/skip-start.svg</file>
+        <file>icons/space.svg</file>
+        <file>icons/step-back.svg</file>
+        <file>icons/step-forward.svg</file>
+        <file>icons/subdivide.svg</file>
+        <file>icons/tool-move.svg</file>
+        <file>icons/tool-rotate.svg</file>
+        <file>icons/tool-scale.svg</file>
+        <file>icons/tool-select.svg</file>
+        <file>icons/tutorial.svg</file>
+        <file>icons/undo.svg</file>
+        <file>icons/unlock.svg</file>
+    </qresource>
+</RCC>

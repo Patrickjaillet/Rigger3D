@@ -1,0 +1,85 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
+# Copyright (C) 2026 Patrick JAILLET
+
+name: Release
+# Déclenchée par un tag de version (v1.0.0) : construit, teste et empaquette Rigger sur les 3 OS (CPack), puis publie une
+# release GitHub avec les binaires et les notes extraites de CHANGELOG.md.
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: write
+
+jobs:
+  package:
+    name: Paquet ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    env:
+      QT_QPA_PLATFORM: offscreen
+    steps:
+      - uses: actions/checkout@v4
+      - name: La version du tag correspond à CMakeLists.txt
+        shell: bash
+        run: |
+          tag="${GITHUB_REF_NAME#v}"
+          cmake_version=$(sed -n 's/^project(Rigger VERSION \([0-9.]*\).*/\1/p' CMakeLists.txt)
+          test "$tag" = "$cmake_version" || { echo "tag $tag != CMakeLists $cmake_version"; exit 1; }
+      - uses: jurplel/install-qt-action@v4
+        with:
+          version: '6.8.*'
+          cache: true
+      - name: Dépendances système (Linux)
+        if: runner.os == 'Linux'
+        run: sudo apt-get update && sudo apt-get install -y ninja-build libgl1-mesa-dev libxkbcommon-x11-0 libxcb-cursor0 libxcb1-dev libx11-xcb-dev libxkbcommon-dev
+      - name: Ninja (macOS)
+        if: runner.os == 'macOS'
+        run: brew install ninja
+      - name: NSIS (Windows)
+        if: runner.os == 'Windows'
+        run: choco install nsis -y --no-progress
+      - name: Environnement MSVC (Windows)
+        if: runner.os == 'Windows'
+        uses: ilammy/msvc-dev-cmd@v1
+      - run: cmake --preset release
+      - run: cmake --build --preset release
+      - run: ctest --preset release
+      - name: Paquets (CPack)
+        shell: bash
+        working-directory: build/release
+        run: cpack
+      - uses: actions/upload-artifact@v4
+        with:
+          name: rigger-${{ runner.os }}
+          path: |
+            build/release/rigger-*.zip
+            build/release/rigger-*.tar.gz
+            build/release/rigger-*.deb
+            build/release/rigger-*.dmg
+            build/release/rigger-*-win64.exe
+            build/release/rigger-*.exe
+          if-no-files-found: error
+
+  release:
+    name: Publier la release
+    needs: package
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          path: dist
+          merge-multiple: true
+      - name: Notes de version (CHANGELOG.md)
+        run: |
+          version="${GITHUB_REF_NAME#v}"
+          awk -v v="$version" '/^## \[/ { p = index($0, "[" v "]") > 0; next } p' CHANGELOG.md > notes.md
+          test -s notes.md || echo "Rigger $version" > notes.md
+      - uses: softprops/action-gh-release@v2
+        with:
+          body_path: notes.md
+          files: dist/*

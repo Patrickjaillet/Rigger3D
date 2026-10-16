@@ -1,0 +1,269 @@
+{
+ "scene": 0,
+ "scenes": [
+  {
+   "nodes": [
+    0,
+    2
+   ]
+  }
+ ],
+ "nodes": [
+  {
+   "name": "shoulder",
+   "children": [
+    1
+   ]
+  },
+  {
+   "name": "elbow",
+   "translation": [
+    0,
+    1,
+    0
+   ]
+  },
+  {
+   "name": "ArmMesh",
+   "mesh": 0,
+   "skin": 0
+  }
+ ],
+ "skins": [
+  {
+   "name": "ArmSkin",
+   "joints": [
+    0,
+    1
+   ],
+   "inverseBindMatrices": 5,
+   "skeleton": 0
+  }
+ ],
+ "materials": [
+  {
+   "name": "Skin",
+   "pbrMetallicRoughness": {
+    "baseColorFactor": [
+     0.2,
+     0.6,
+     0.9,
+     1
+    ]
+   }
+  }
+ ],
+ "meshes": [
+  {
+   "name": "Arm",
+   "primitives": [
+    {
+     "attributes": {
+      "POSITION": 0,
+      "NORMAL": 1,
+      "JOINTS_0": 2,
+      "WEIGHTS_0": 3
+     },
+     "indices": 4,
+     "material": 0
+    }
+   ]
+  }
+ ],
+ "animations": [
+  {
+   "name": "Bend",
+   "samplers": [
+    {
+     "input": 6,
+     "output": 7,
+     "interpolation": "LINEAR"
+    },
+    {
+     "input": 6,
+     "output": 8,
+     "interpolation": "STEP"
+    },
+    {
+     "input": 6,
+     "output": 9,
+     "interpolation": "CUBICSPLINE"
+    }
+   ],
+   "channels": [
+    {
+     "sampler": 0,
+     "target": {
+      "node": 1,
+      "path": "rotation"
+     }
+    },
+    {
+     "sampler": 1,
+     "target": {
+      "node": 0,
+      "path": "translation"
+     }
+    },
+    {
+     "sampler": 2,
+     "target": {
+      "node": 0,
+      "path": "scale"
+     }
+    }
+   ]
+  }
+ ],
+ "asset": {
+  "version": "2.0",
+  "generator": "rigger/tools/make_test_gltf.py"
+ },
+ "buffers": [
+  {
+   "byteLength": 1700,
+   "uri": "data:application/octet-stream;base64,zczMPQAAAAAAAAAAAACAPwAAAAAAAAAAzcxMPQAAAACsXLE9AAAAPwAAAADXs10/zcxMvQAAAACsXLE9AAAAvwAAAADXs10/zczMvQAAAABP6GEjAACAvwAAAAAyMQ0lzcxMvQAAAACsXLG9AAAAvwAAAADXs12/zcxMPQAAAACsXLG9AAAAPwAAAADXs12/zczMPQAAAD8AAAAAAACAPwAAAAAAAAAAzcxMPQAAAD+sXLE9AAAAPwAAAADXs10/zcxMvQAAAD+sXLE9AAAAvwAAAADXs10/zczMvQAAAD9P6GEjAACAvwAAAAAyMQ0lzcxMvQAAAD+sXLG9AAAAvwAAAADXs12/zcxMPQAAAD+sXLG9AAAAPwAAAADXs12/zczMPQAAgD8AAAAAAACAPwAAAAAAAAAAzcxMPQAAgD+sXLE9AAAAPwAAAADXs10/zcxMvQAAgD+sXLE9AAAAvwAAAADXs10/zczMvQAAgD9P6GEjAACAvwAAAAAyMQ0lzcxMvQAAgD+sXLG9AAAAvwAAAADXs12/zcxMPQAAgD+sXLG9AAAAPwAAAADXs12/zczMPQAAwD8AAAAAAACAPwAAAAAAAAAAzcxMPQAAwD+sXLE9AAAAPwAAAADXs10/zcxMvQAAwD+sXLE9AAAAvwAAAADXs10/zczMvQAAwD9P6GEjAACAvwAAAAAyMQ0lzcxMvQAAwD+sXLG9AAAAvwAAAADXs12/zcxMPQAAwD+sXLG9AAAAPwAAAADXs12/zczMPQAAAEAAAAAAAACAPwAAAAAAAAAAzcxMPQAAAECsXLE9AAAAPwAAAADXs10/zcxMvQAAAECsXLE9AAAAvwAAAADXs10/zczMvQAAAEBP6GEjAACAvwAAAAAyMQ0lzcxMvQAAAECsXLG9AAAAvwAAAADXs12/zcxMPQAAAECsXLG9AAAAPwAAAADXs12/AAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAA//8AAAAAAAD//wAAAAAAAP//AAAAAAAA//8AAAAAAAD//wAAAAAAAP//AAAAAAAA//8AAAAAAAD//wAAAAAAAP//AAAAAAAA//8AAAAAAAD//wAAAAAAAP//AAAAAAAA/38AgAAAAAD/fwCAAAAAAP9/AIAAAAAA/38AgAAAAAD/fwCAAAAAAP9/AIAAAAAAAAD//wAAAAAAAP//AAAAAAAA//8AAAAAAAD//wAAAAAAAP//AAAAAAAA//8AAAAAAAD//wAAAAAAAP//AAAAAAAA//8AAAAAAAD//wAAAAAAAP//AAAAAAAA//8AAAAAAAABAAcAAAAHAAYAAQACAAgAAQAIAAcAAgADAAkAAgAJAAgAAwAEAAoAAwAKAAkABAAFAAsABAALAAoABQAAAAYABQAGAAsABgAHAA0ABgANAAwABwAIAA4ABwAOAA0ACAAJAA8ACAAPAA4ACQAKABAACQAQAA8ACgALABEACgARABAACwAGAAwACwAMABEADAANABMADAATABIADQAOABQADQAUABMADgAPABUADgAVABQADwAQABYADwAWABUAEAARABcAEAAXABYAEQAMABIAEQASABcAEgATABkAEgAZABgAEwAUABoAEwAaABkAFAAVABsAFAAbABoAFQAWABwAFQAcABsAFgAXAB0AFgAdABwAFwASABgAFwAYAB0AAACAPwAAAAAAAAAAAAAAAAAAAAAAAIA/AAAAAAAAAAAAAAAAAAAAAAAAgD8AAAAAAAAAAAAAAAAAAAAAAACAPwAAgD8AAAAAAAAAAAAAAAAAAAAAAACAPwAAAAAAAAAAAAAAAAAAAAAAAIA/AAAAAAAAAAAAAIC/AAAAAAAAgD8AAAAAAAAAPwAAgD8AAAAAAAAAAAAAAAAAAIA/AAAAAAAAAAAV78M+XoNsPwAAAAAAAAAA8wQ1P/MENT8AAAAAAAAAAAAAAAAAAAA/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIA/AACAPwAAgD8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAACAPwAAgD8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIA/AACAPwAAgD8AAAAAAAAAAAAAAAA="
+  }
+ ],
+ "bufferViews": [
+  {
+   "buffer": 0,
+   "byteOffset": 0,
+   "byteLength": 720,
+   "target": 34962,
+   "byteStride": 24
+  },
+  {
+   "buffer": 0,
+   "byteOffset": 720,
+   "byteLength": 120,
+   "target": 34962
+  },
+  {
+   "buffer": 0,
+   "byteOffset": 840,
+   "byteLength": 240,
+   "target": 34962
+  },
+  {
+   "buffer": 0,
+   "byteOffset": 1080,
+   "byteLength": 288,
+   "target": 34963
+  },
+  {
+   "buffer": 0,
+   "byteOffset": 1368,
+   "byteLength": 128
+  },
+  {
+   "buffer": 0,
+   "byteOffset": 1496,
+   "byteLength": 12
+  },
+  {
+   "buffer": 0,
+   "byteOffset": 1508,
+   "byteLength": 48
+  },
+  {
+   "buffer": 0,
+   "byteOffset": 1556,
+   "byteLength": 36
+  },
+  {
+   "buffer": 0,
+   "byteOffset": 1592,
+   "byteLength": 108
+  }
+ ],
+ "accessors": [
+  {
+   "bufferView": 0,
+   "byteOffset": 0,
+   "componentType": 5126,
+   "count": 30,
+   "type": "VEC3",
+   "min": [
+    -0.1,
+    0,
+    -0.1
+   ],
+   "max": [
+    0.1,
+    2,
+    0.1
+   ]
+  },
+  {
+   "bufferView": 0,
+   "byteOffset": 12,
+   "componentType": 5126,
+   "count": 30,
+   "type": "VEC3"
+  },
+  {
+   "bufferView": 1,
+   "byteOffset": 0,
+   "componentType": 5121,
+   "count": 30,
+   "type": "VEC4"
+  },
+  {
+   "bufferView": 2,
+   "byteOffset": 0,
+   "componentType": 5123,
+   "count": 30,
+   "type": "VEC4",
+   "normalized": true
+  },
+  {
+   "bufferView": 3,
+   "byteOffset": 0,
+   "componentType": 5123,
+   "count": 144,
+   "type": "SCALAR"
+  },
+  {
+   "bufferView": 4,
+   "byteOffset": 0,
+   "componentType": 5126,
+   "count": 2,
+   "type": "MAT4"
+  },
+  {
+   "bufferView": 5,
+   "byteOffset": 0,
+   "componentType": 5126,
+   "count": 3,
+   "type": "SCALAR",
+   "min": [
+    0.0
+   ],
+   "max": [
+    1.0
+   ]
+  },
+  {
+   "bufferView": 6,
+   "byteOffset": 0,
+   "componentType": 5126,
+   "count": 3,
+   "type": "VEC4"
+  },
+  {
+   "bufferView": 7,
+   "byteOffset": 0,
+   "componentType": 5126,
+   "count": 3,
+   "type": "VEC3"
+  },
+  {
+   "bufferView": 8,
+   "byteOffset": 0,
+   "componentType": 5126,
+   "count": 9,
+   "type": "VEC3"
+  }
+ ]
+}

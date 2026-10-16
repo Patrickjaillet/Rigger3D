@@ -1,0 +1,98 @@
+/* SPDX-License-Identifier: GPL-3.0-or-later
+ * Copyright (C) 2026 Patrick JAILLET */
+
+/* Feuille de style unique. Les jetons entre arobases sont remplacés par editor/Theme selon le thème (sombre / clair). */
+
+QWidget {
+    color: @text@;
+    selection-background-color: @selection@;
+    selection-color: @text@;
+}
+QMainWindow, QDialog, QStackedWidget, QStatusBar { background: @window@; }
+QToolTip {
+    background: @panel@; color: @text@; border: 1px solid @border@; padding: 4px 6px;
+}
+
+/* Menus */
+QMenuBar { background: @window@; border-bottom: 1px solid @border@; }
+QMenuBar::item { padding: 5px 10px; background: transparent; }
+QMenuBar::item:selected { background: @hover@; }
+QMenu { background: @panel@; border: 1px solid @border@; padding: 4px; }
+QMenu::item { padding: 5px 26px 5px 24px; border-radius: 3px; }
+QMenu::item:selected { background: @accent@; color: @accentText@; }
+QMenu::item:disabled { color: @textDim@; }
+QMenu::separator { height: 1px; background: @border@; margin: 4px 6px; }
+
+/* Barres d'outils */
+QToolBar { background: @window@; border: 0; border-bottom: 1px solid @border@; spacing: 3px; padding: 3px 6px; }
+QToolBar::separator { width: 1px; background: @border@; margin: 4px 6px; }
+QToolButton { background: transparent; border: 1px solid transparent; border-radius: 4px; padding: 4px 8px; }
+QToolButton:hover { background: @hover@; }
+QToolButton:checked { background: @accent@; color: @accentText@; }
+QToolButton:disabled { color: @textDim@; }
+
+/* Champs */
+QLineEdit, QPlainTextEdit, QTextEdit, QSpinBox, QDoubleSpinBox, QComboBox, QKeySequenceEdit {
+    background: @base@; border: 1px solid @border@; border-radius: 4px; padding: 3px 6px;
+}
+QLineEdit:focus, QPlainTextEdit:focus, QSpinBox:focus, QDoubleSpinBox:focus, QComboBox:focus {
+    border-color: @accent@;
+}
+QComboBox::drop-down { border: 0; width: 18px; }
+QComboBox QAbstractItemView { background: @panel@; border: 1px solid @border@; }
+QPushButton {
+    background: @panel@; border: 1px solid @border@; border-radius: 4px; padding: 5px 14px;
+}
+QPushButton:hover { background: @hover@; }
+QPushButton:disabled { color: @textDim@; }
+QPushButton[primary="true"] { background: @accent@; color: @accentText@; border-color: @accent@; }
+QPushButton[flat="true"], QPushButton[link="true"] { background: transparent; border: 0; color: @accent@; text-align: left; }
+QCheckBox::indicator { width: 14px; height: 14px; border: 1px solid @border@; border-radius: 3px; background: @base@; }
+QCheckBox::indicator:checked { background: @accent@; border-color: @accent@; }
+QGroupBox { border: 1px solid @border@; border-radius: 4px; margin-top: 12px; padding-top: 8px; }
+QGroupBox::title { subcontrol-origin: margin; left: 8px; color: @textDim@; }
+QLabel[dim="true"] { color: @textDim@; }
+QLabel[title="true"] { font-size: 22px; font-weight: 600; }
+
+/* Vues */
+QTreeView, QListView, QTableView, QTreeWidget, QListWidget, QTableWidget {
+    background: @base@; border: 1px solid @border@; alternate-background-color: @panel@;
+}
+QTreeView::item:selected, QListView::item:selected, QTableView::item:selected { background: @selection@; }
+QTreeView::item:hover, QListView::item:hover { background: @hover@; }
+QHeaderView::section { background: @panel@; color: @textDim@; border: 0; border-right: 1px solid @border@; padding: 4px 6px; }
+
+/* Onglets */
+QTabWidget::pane { border: 1px solid @border@; top: -1px; }
+QTabBar::tab { background: @window@; border: 1px solid @border@; padding: 5px 12px; margin-right: 2px; }
+QTabBar::tab:selected { background: @panel@; border-bottom-color: @panel@; }
+
+/* Barres de défilement */
+QScrollBar:vertical { background: transparent; width: 11px; margin: 0; }
+QScrollBar:horizontal { background: transparent; height: 11px; margin: 0; }
+QScrollBar::handle { background: @border@; border-radius: 4px; min-height: 24px; min-width: 24px; }
+QScrollBar::handle:hover { background: @textDim@; }
+QScrollBar::add-line, QScrollBar::sub-line { width: 0; height: 0; }
+QScrollBar::add-page, QScrollBar::sub-page { background: transparent; }
+
+QProgressBar { background: @base@; border: 1px solid @border@; border-radius: 4px; text-align: center; max-height: 14px; }
+QProgressBar::chunk { background: @accent@; border-radius: 3px; }
+QStatusBar::item { border: 0; }
+QStatusBar QLabel { padding: 0 8px; }
+
+/*[ads-begin]*/
+/* Docking (Qt Advanced Docking System). Ces règles sont aussi appliquées au CDockManager (feuille de style propre à
+   ADS, prioritaire sur celle de l'application) : voir Theme::dockStyleSheet. */
+ads--CDockContainerWidget { background: @window@; }
+ads--CDockContainerWidget > QSplitter { background: @window@; }
+ads--CDockContainerWidget QSplitter::handle { background: @border@; }
+ads--CDockAreaWidget { background: @panel@; border: 1px solid @border@; }
+ads--CDockAreaTitleBar { background: @window@; }
+ads--CDockWidget { background: @panel@; border: 0; }
+ads--CDockWidgetTab { background: @window@; border-color: @border@; }
+ads--CDockWidgetTab QLabel { color: @textDim@; }
+ads--CDockWidgetTab[activeTab="true"], ads--CDockWidgetTab[focused="true"] {
+    background: @panel@; border-bottom: 2px solid @accent@;
+}
+ads--CDockWidgetTab[activeTab="true"] QLabel, ads--CDockWidgetTab[focused="true"] QLabel { color: @text@; }
+/*[ads-end]*/

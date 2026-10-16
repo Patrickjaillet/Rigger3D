@@ -1,0 +1,26 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
+// Copyright (C) 2026 Patrick JAILLET
+
+#pragma once
+#include <string>
+#include <string_view>
+
+namespace rigger {
+
+inline constexpr int kVersionMajor = @PROJECT_VERSION_MAJOR@;
+inline constexpr int kVersionMinor = @PROJECT_VERSION_MINOR@;
+inline constexpr int kVersionPatch = @PROJECT_VERSION_PATCH@;
+inline constexpr std::string_view kVersionString = "@PROJECT_VERSION@";
+inline constexpr std::string_view kAppName = "Rigger";  // identifiant technique (réglages, exécutable, journaux)
+
+// Métadonnées du projet (écran « À propos », ressources Windows, paquets).
+inline constexpr std::string_view kProductName = "Rigger3D";
+inline constexpr std::string_view kCopyright = "Copyright (C) 2026 Patrick JAILLET";
+inline constexpr std::string_view kLicenseId = "GPL-3.0-or-later";
+inline constexpr std::string_view kContactEmail = "sandefjord.development@proton.me";
+inline constexpr std::string_view kWebsiteUrl = "https://patrickjaillet.github.io/Rigger3D";
+
+// Ex. : "Rigger v0.1.0"
+std::string versionBanner();
+
+}  // namespace rigger

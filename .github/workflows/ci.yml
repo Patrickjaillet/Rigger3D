@@ -1,0 +1,143 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
+# Copyright (C) 2026 Patrick JAILLET
+
+name: CI
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  build:
+    name: ${{ matrix.os }} / ${{ matrix.config }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        config: [debug, release]
+    env:
+      QT_QPA_PLATFORM: offscreen
+    steps:
+      - uses: actions/checkout@v4
+      - uses: jurplel/install-qt-action@v4
+        with:
+          version: '6.8.*'
+          cache: true
+      - name: Dépendances système (Linux)
+        if: runner.os == 'Linux'
+        run: sudo apt-get update && sudo apt-get install -y ninja-build libgl1-mesa-dev libxkbcommon-x11-0 libxcb-cursor0 libxcb1-dev libx11-xcb-dev libxkbcommon-dev
+      - name: Ninja (macOS)
+        if: runner.os == 'macOS'
+        run: brew install ninja
+      - name: Environnement MSVC (Windows)
+        if: runner.os == 'Windows'
+        uses: ilammy/msvc-dev-cmd@v1
+      - run: cmake --preset ${{ matrix.config }}
+      - run: cmake --build --preset ${{ matrix.config }}
+      - run: ctest --preset ${{ matrix.config }}
+      - name: THIRD_PARTY_LICENSES.txt à jour
+        if: runner.os == 'Linux' && matrix.config == 'debug'
+        run: python3 tools/gen_third_party.py --check
+      - name: Paquet CPack (ZIP / TGZ)
+        if: matrix.config == 'release' && runner.os != 'macOS'
+        shell: bash
+        working-directory: build/release
+        run: cpack -G "$([ "$RUNNER_OS" = Windows ] && echo ZIP || echo TGZ)"
+      - name: Smoke test de l'application
+        if: runner.os != 'Windows'
+        run: ./build/${{ matrix.config }}/src/app/rigger --smoke-test
+
+  sanitizers:
+    name: ASan + UBSan (Linux)
+    runs-on: ubuntu-latest
+    env:
+      QT_QPA_PLATFORM: offscreen
+    steps:
+      - uses: actions/checkout@v4
+      - uses: jurplel/install-qt-action@v4
+        with:
+          version: '6.8.*'
+          cache: true
+      - run: sudo apt-get update && sudo apt-get install -y ninja-build libgl1-mesa-dev libxkbcommon-x11-0 libxcb-cursor0 libxcb1-dev libx11-xcb-dev libxkbcommon-dev
+      - run: cmake --preset asan
+      - run: cmake --build --preset asan
+      - run: ctest --preset asan
+
+  format:
+    name: clang-format
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Vérifier le formatage
+        run: |
+          sudo apt-get update && sudo apt-get install -y clang-format
+          find src tests -name '*.cpp' -o -name '*.hpp' | xargs clang-format --dry-run --Werror
+      - name: Conformité de licence (SPDX, LICENSE, anonymat)
+        run: python3 tools/license_headers.py --root .
+      - name: CHANGELOG.md à jour
+        run: python3 tools/gen_changelog.py --check
+
+  gltf-validation:
+    name: glTF-Validator (GLB exporté)
+    runs-on: ubuntu-latest
+    env:
+      QT_QPA_PLATFORM: offscreen
+    steps:
+      - uses: actions/checkout@v4
+      - uses: jurplel/install-qt-action@v4
+        with:
+          version: '6.8.*'
+          cache: true
+      - run: sudo apt-get update && sudo apt-get install -y ninja-build libgl1-mesa-dev libxkbcommon-x11-0 libxcb-cursor0 libxcb1-dev libx11-xcb-dev libxkbcommon-dev
+      - run: cmake --preset release
+      - run: cmake --build --preset release
+      - name: Exporter un GLB depuis un personnage de test
+        run: ./build/release/src/app/rigger tests/data/RiggedFigure.glb --export-gltf exported.glb
+      - name: Valider avec le glTF-Validator de Khronos (aucune erreur ni avertissement)
+        run: |
+          npm install gltf-validator
+          node -e "const v=require('gltf-validator');const fs=require('fs');v.validateBytes(new Uint8Array(fs.readFileSync('exported.glb'))).then(r=>{console.log(JSON.stringify(r.issues,null,1));if(r.issues.numErrors>0||r.issues.numWarnings>0)process.exit(1)})"
+
+  coverage:
+    name: Couverture de code core/ (gcovr, seuil 85 %)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: sudo apt-get update && sudo apt-get install -y ninja-build gcovr
+      - run: cmake --preset coverage
+      - run: cmake --build --preset coverage
+      - run: ctest --preset coverage
+      - name: Rapport (échoue sous 85 % de lignes couvertes dans src/core)
+        run: |
+          gcovr --root . --filter 'src/core/' --exclude 'src/core/command/commands.hpp' \
+                --print-summary --xml coverage.xml --html-details coverage.html --fail-under-line 85
+      - uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: |
+            coverage.xml
+            coverage*.html
+
+  fuzzing:
+    name: Fuzzing libFuzzer (import glTF, chargeur de projets)
+    runs-on: ubuntu-latest
+    env:
+      QT_QPA_PLATFORM: offscreen
+    steps:
+      - uses: actions/checkout@v4
+      - run: sudo apt-get update && sudo apt-get install -y ninja-build clang
+      - name: Construire les cibles de fuzzing (core + io, sans Qt)
+        run: |
+          cmake -S . -B build/fuzz -G Ninja -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_C_COMPILER=clang \
+                -DCMAKE_BUILD_TYPE=Debug -DRIGGER_BUILD_APP=OFF -DRIGGER_BUILD_TESTS=OFF \
+                -DRIGGER_BUILD_FUZZERS=ON -DRIGGER_WARNINGS_AS_ERRORS=OFF
+          cmake --build build/fuzz --target fuzz_project fuzz_gltf
+      - name: Fuzzer le chargeur de projets (60 s)
+        run: |
+          mkdir -p corpus/project
+          ./build/fuzz/fuzz/fuzz_project -max_total_time=60 -rss_limit_mb=2048 corpus/project
+      - name: Fuzzer l'import glTF (60 s, corpus = fichiers de test)
+        run: |
+          mkdir -p corpus/gltf && cp tests/data/*.gltf tests/data/*.glb corpus/gltf/
+          ./build/fuzz/fuzz/fuzz_gltf -max_total_time=60 -rss_limit_mb=2048 corpus/gltf
