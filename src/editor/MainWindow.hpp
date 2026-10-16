@@ -114,9 +114,10 @@ public:
     void discardAutosave();
     TutorialGuide* tutorial() const { return tutorial_; }
     void startTutorial();  // visite guidée en info-bulles (n'écrit rien, n'envoie rien)
-    void openExample(bool withTutorial = false);  // charge le projet d'exemple « Rigby » (CC0) ; jamais
-                                                  // écrasé par Enregistrer
-    void offerRecovery();                         // demande à l'utilisateur (appelé par main() au lancement)
+    // Charge le projet d'exemple « Rigby » (CC0) ; jamais écrasé par Enregistrer.
+    void openExample(bool withTutorial = false);
+    // Demande à l'utilisateur (appelé par main() au lancement).
+    void offerRecovery();
     // Image du viewport 3D (nulle si le rendu OpenGL est indisponible, p. ex. plateforme offscreen).
     QImage grabViewport();
 
